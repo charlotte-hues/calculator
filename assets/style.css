@@ -13,7 +13,7 @@ main {
     height: 100%;
     width: 100%;
     grid-template-rows: 1fr 600px 1fr;
-    grid-template-columns: 1fr 400px 1fr;
+    grid-template-columns: 1fr 340px 1fr;
     grid-template-areas: "header    header          header"
                          "left      calcContainer    right" 
                          "footer    footer          footer"  ;
@@ -26,14 +26,38 @@ main {
     justify-content: space-between;
     border-radius: 10px;
     background-color: #F1F2F0;
+    box-shadow: 0  4px rgba(64, 50, 42, 0.1);
+    border: 2px solid rgba(64, 50, 42, 0.2);
 }
+
+#screenContainer {
+    display: flex;
+    flex-direction: column-reverse;
+    width: 300px;
+    height: 100px;
+    align-self: center;
+    margin-top: 50px;
+    border: 12px solid #BFBAA8;
+    background-color: rgba(128, 166, 133, 0.3);
+    border-radius: 10px;
+    box-shadow: 0 -3px rgba(64, 50, 42, 0.4);
+    color: #80A685;
+    text-align: right;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: large;
+}
+
+#result {
+    font-size: x-large;
+}
+
 
 #buttonsContainer {
     display: grid;
     align-self: center;  
-    width: 380px;
-    height: 400px;
-    margin: 10px;
+    width: 300px;
+    height: 320px;
+    margin: 30px;
     padding: 4px;
     grid-template-rows: repeat(5, 1fr);
     grid-template-columns: repeat(4, 1fr);
@@ -44,12 +68,25 @@ main {
 
 button {
     background-color: #BFBAA8;
+    font-weight: bolder;
     color: rgba(64, 50, 42, 0.5);
     border: 0px;
     margin: 2px;
-    height: 60px;
-    width: 60px;
+    height: 50px;
+    width: 50px;
     border-radius: 50%;
-    box-shadow: 0  1px rgba(64, 50, 42, 0.5);
+    box-shadow: 0  2px rgba(64, 50, 42, 0.3);
+    align-self: center;
+    justify-self: center;
+    border: 10px solid rgba(64, 50, 42, 0.05);
 }
 
+#equals {
+    background-color: #F25A38;
+    color: #F1F2F0;
+}
+
+.operators {
+    background-color: #40322A;
+    color: #BFBAA8;
+}
