@@ -37,22 +37,10 @@ main {
     padding: 4px;
     grid-template-rows: repeat(5, 1fr);
     grid-template-columns: repeat(4, 1fr);
-    grid-template-areas:    'function  function    function    function '
-                            'numbers   numbers     numbers     divide'
-                            'numbers   numbers     numbers     multiply'
-                            'numbers   numbers     numbers     minus'
-                            '0         decimal     equals      plus';
     gap: 4px;
     justify-content: center;
 }
 
-#functionsContainer {
-    /* grid-area: function; */
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    direction: rtl;
-    justify-items: center;    
-}
 
 button {
     background-color: #BFBAA8;
@@ -64,3 +52,4 @@ button {
     border-radius: 50%;
     box-shadow: 0  1px rgba(64, 50, 42, 0.5);
 }
+
