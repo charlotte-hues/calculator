@@ -3,7 +3,7 @@ function subtract(a, b) { return a - b;};
 function multiply(a, b) { return a * b;};
 function divide(a, b) {	return a / b;};
 
-function operate(a, b, operation) { return operation(a,b); };
+
 
 // BUTTONS - Done like this to give each button an id that isn't a number or a symbol so it can be styled with css if wanted.
 
@@ -56,36 +56,46 @@ const numbers = document.querySelectorAll('.numbers');
 const operators = document.querySelectorAll('.operators');
 const display = document.querySelector('#display');
 const resultDisplay = document.querySelector('#result');
-let displayValueA = '';
-let displayValueB = '';
+
+let currentValue = '';
+let displayValue = '';
 let operator;
 let count = 0;
+const numbersArr = [];
+const operationsArr = [];
 
 numbers.forEach(button => {
     button.addEventListener('click', event => {
-        if(count===0) {
-            displayValueA = displayValueA + event.target.innerHTML;
-            display.innerHTML = displayValueA;  
-        } else {
-            displayValueB = displayValueB + event.target.innerHTML;
-            display.innerHTML = displayValueA + ' ' + displayValueB;              
-        }
-
+        displayValue = displayValue + event.target.innerHTML;
+        display.innerHTML = displayValue;
+        currentValue = currentValue + event.target.innerHTML;
+        numbersArr[count] = currentValue;
+        resultDisplay.innerHTML = operate(numbersArr, operationsArr);
     })
-});
-
+});;
 
 operators.forEach(button => {
     button.addEventListener('click', event => {
-        console.log(event.target.id);
-        display.innerHTML = displayValueA + event.target.innerHTML;
-        operator = event.target.id;
+        displayValue = displayValue + event.target.innerHTML;
+        display.innerHTML = displayValue;
+        operationsArr[count] = event.target.id;
         count++;
-        console.log(count);
-        console.log(operator);
+        currentValue = '';
     })
 });
 
+document.querySelector('#equals').addEventListener('click', event => { 
+    count = count-1;
+    resultDisplay.innerHTML = operate(numbersArr, operationsArr);
+});
 
-document.querySelector('#equals').addEventListener('click', event => { resultDisplay.innerHTML = operate(displayValueA, displayValueB, operator); })
-
+function operate(numbersArr, operationsArr) {
+    let prevAnswer = Number(numbersArr[0]);
+    let operator = window[operationsArr[0]];
+    for (let i=0; i<numbersArr.length-1; i++) {
+        operator = window[operationsArr[i]];
+        prevAnswer = operator(prevAnswer, Number(numbersArr[i+1]));
+        console.log(prevAnswer);
+    }
+    return prevAnswer;
+ };
