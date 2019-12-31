@@ -88,7 +88,7 @@ const operators = document.querySelectorAll('.operators');
 operators.forEach(button => {
     button.addEventListener('click', event => {
         displayValue = displayValue + event.target.innerHTML;
-        display.innerHTML = displayValue;
+        (displayValue === '=') ? displayValue = '' : display.innerHTML = displayValue;
         operationsArr[count] = event.target.id;
         count++;
         currentValue = '';
@@ -97,9 +97,10 @@ operators.forEach(button => {
 
 document.querySelector('#equals').addEventListener('click', event => { 
     count = count-1;
+    if (numbersArr.length < 1) return;
     let newResult = operate(numbersArr, operationsArr);
     resultDisplay.innerHTML = newResult;
-    let newDisplay = displayValue;
-    display.innerHTML = newDisplay;
+    let tempDisplay = displayValue;
+    display.innerHTML = tempDisplay;
     displayValue = newResult;
 });
