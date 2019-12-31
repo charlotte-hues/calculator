@@ -5,21 +5,21 @@ function divide(a, b) {	return a / b;};
 
 
 
-// BUTTONS - Done like this to give each button an id that isn't a number or a symbol so it can be styled with css if wanted.
+// BUTTONS - Done like this to give each button an id that isn't a number or a symbol so it can be individually styled with css.
 
 const clearButton = {id: 'clear', text: 'c'};
-const clearAllButton = {id: 'clearAll', text: 'ce'};
+const backButton = {id: 'backspace', text: '<'};
+const swapButton = {id: 'swap', text: '+/-'};
 
 const equalsButton = {id: 'equals', text: '='};
 const addButton = {id: 'add', text: '+'};
 const subtractButton = {id: 'subtract', text: '-'};
 const multiplyButton = {id: 'multiply', text: 'x'};
 const divideButton = {id: 'divide', text: '/'};
-const backButton = {id: 'backspace', text: '<'};
-const swapButton = {id: 'swap', text: '+/-'};
 
 const decimalButton = {id: 'decimal', text: '.'};
 const zeroButton = {id: 'zero', text: '0'};
+const zero2Button = {id: 'zero2', text: '00'};
 const oneButton = {id: 'one', text: '1'};
 const twoButton = {id: 'two', text: '2'};
 const threeButton = {id: 'three', text: '3'};
@@ -30,11 +30,13 @@ const sevenButton = {id: 'seven', text: '7'};
 const eightButton = {id: 'eight', text: '8'};
 const nineButton = {id: 'nine', text: '9'};
 
-const buttons   = [ swapButton,     clearAllButton, clearButton,    backButton,
+const buttons   = [ swapButton,     clearButton,    backButton,     addButton,
                     sevenButton,    eightButton,    nineButton,     divideButton,
                     fourButton,     fiveButton,     sixButton,      multiplyButton,
                     oneButton,      twoButton,      threeButton,    subtractButton,
-                    zeroButton,     decimalButton,  equalsButton,   addButton  ];
+                    zeroButton,     zero2Button,    decimalButton,  equalsButton,   ];
+
+                    
 
 const buttonsContainer = document.querySelector("#buttonsContainer");
 
