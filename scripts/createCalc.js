@@ -3,19 +3,17 @@ function subtract(a, b) { return a - b;};
 function multiply(a, b) { return a * b;};
 function divide(a, b) {	return a / b;};
 
-
-
 // BUTTONS - Done like this to give each button an id that isn't a number or a symbol so it can be individually styled with css.
 
-const clearButton = {id: 'clear', text: 'c'};
+const clearButton = {id: 'clear', text: 'clr'};
 const backButton = {id: 'backspace', text: '<'};
 const swapButton = {id: 'swap', text: '+/-'};
 
-const equalsButton = {id: 'equals', text: '='};
 const addButton = {id: 'add', text: '+'};
 const subtractButton = {id: 'subtract', text: '-'};
 const multiplyButton = {id: 'multiply', text: 'x'};
 const divideButton = {id: 'divide', text: '/'};
+const equalsButton = {id: 'equals', text: '='};
 
 const decimalButton = {id: 'decimal', text: '.'};
 const zeroButton = {id: 'zero', text: '0'};
@@ -30,14 +28,13 @@ const sevenButton = {id: 'seven', text: '7'};
 const eightButton = {id: 'eight', text: '8'};
 const nineButton = {id: 'nine', text: '9'};
 
-const buttons   = [ swapButton,     clearButton,    backButton,     addButton,
+const buttons   = [ clearButton,    backButton,     swapButton,     addButton,
                     sevenButton,    eightButton,    nineButton,     divideButton,
                     fourButton,     fiveButton,     sixButton,      multiplyButton,
                     oneButton,      twoButton,      threeButton,    subtractButton,
                     zeroButton,     zero2Button,    decimalButton,  equalsButton,   ];
 
                     
-
 const buttonsContainer = document.querySelector("#buttonsContainer");
 
 function createButtons(item) {
@@ -54,18 +51,29 @@ function createButtons(item) {
 
 buttons.forEach(createButtons);
 
-const numbers = document.querySelectorAll('.numbers');
-const operators = document.querySelectorAll('.operators');
 const display = document.querySelector('#display');
 const resultDisplay = document.querySelector('#result');
-
+const numbersArr = [];
+const operationsArr = [];
 let currentValue = '';
 let displayValue = '';
 let operator;
 let count = 0;
-const numbersArr = [];
-const operationsArr = [];
 
+
+function operate(numbersArr, operationsArr) {
+    let prevAnswer = Number(numbersArr[0]);
+    let operator = window[operationsArr[0]];
+    for (let i=0; i<numbersArr.length-1; i++) {
+        operator = window[operationsArr[i]];
+        prevAnswer = operator(prevAnswer, Number(numbersArr[i+1]));
+        console.log(prevAnswer);
+    }
+    return prevAnswer;
+ };
+
+
+const numbers = document.querySelectorAll('.numbers');
 numbers.forEach(button => {
     button.addEventListener('click', event => {
         displayValue = displayValue + event.target.innerHTML;
@@ -76,6 +84,7 @@ numbers.forEach(button => {
     })
 });;
 
+const operators = document.querySelectorAll('.operators');
 operators.forEach(button => {
     button.addEventListener('click', event => {
         displayValue = displayValue + event.target.innerHTML;
@@ -88,16 +97,9 @@ operators.forEach(button => {
 
 document.querySelector('#equals').addEventListener('click', event => { 
     count = count-1;
-    resultDisplay.innerHTML = operate(numbersArr, operationsArr);
+    let newResult = operate(numbersArr, operationsArr);
+    resultDisplay.innerHTML = newResult;
+    let newDisplay = displayValue;
+    display.innerHTML = newDisplay;
+    displayValue = newResult;
 });
-
-function operate(numbersArr, operationsArr) {
-    let prevAnswer = Number(numbersArr[0]);
-    let operator = window[operationsArr[0]];
-    for (let i=0; i<numbersArr.length-1; i++) {
-        operator = window[operationsArr[i]];
-        prevAnswer = operator(prevAnswer, Number(numbersArr[i+1]));
-        console.log(prevAnswer);
-    }
-    return prevAnswer;
- };
