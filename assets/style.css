@@ -1,5 +1,7 @@
 * {
     box-sizing: border-box;
+    -moz-outline:0 none;
+    outline:0 none;
 }
 
 html, body {
