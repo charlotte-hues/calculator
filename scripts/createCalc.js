@@ -138,8 +138,6 @@ function backspace() {
     isNaN(totalValue) ? resultDisplay.innerHTML = '' : resultDisplay.innerHTML = totalValue;
 };
 
-
-
 function operate(numbersArr, operationsArr) {
     let prevAnswer = Number(numbersArr[0]);
     let operator = window[operationsArr[0]];
@@ -162,6 +160,10 @@ function operate(numbersArr, operationsArr) {
         fullSum = totalValue;
         hasResult = true;
     };
+    count = 0;
+    numbersArr = []
+    numbersArr[0] = totalValue;
+    operationsArr = [];
     return totalValue;
  };
 
