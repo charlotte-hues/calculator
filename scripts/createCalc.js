@@ -55,8 +55,9 @@ const display = document.querySelector('#display');
 const resultDisplay = document.querySelector('#result');
 let numbersArr = [];
 let operationsArr = [];
+let fullSum = '';
 let currentValue = '';
-let displayValue = '';
+let totalValue = '';
 let count = 0;
 let hasResult = false;
 
@@ -64,9 +65,10 @@ function clear() {
     numbersArr = [];
     operationsArr = [];
     currentValue = '';
-    displayValue = '';
+    totalValue = '';
+    fullSum = '';
     count = 0;
-    display.innerHTML = displayValue;
+    display.innerHTML = totalValue;
     resultDisplay.innerHTML = '';
 };
 
@@ -80,13 +82,41 @@ function resultCheck(event) {
 
 function addNumber(id, innerHTML) {
     if (id === 'decimal' && currentValue.toString().includes('.')) return;
-    displayValue = displayValue + innerHTML;
-    display.innerHTML = displayValue;
     currentValue = currentValue + innerHTML;
+    fullSum = fullSum + innerHTML;
+    display.innerHTML = fullSum;
     numbersArr[count] = currentValue;
-    let result = operate(numbersArr, operationsArr);
-    (isNaN(result)) ? resultDisplay.innerHTML = '' : resultDisplay.innerHTML = result;
+    totalValue = operate(numbersArr, operationsArr);
+    (isNaN(totalValue)) ? resultDisplay.innerHTML = '' : resultDisplay.innerHTML = totalValue;
 }
+
+function addOperator(event) {
+    if (event.target.id === 'swap') return;
+    hasResult = false;
+    currentValue = currentValue + event.target.innerHTML;
+    fullSum = fullSum + event.target.innerHTML;
+    (currentValue === '=') ? totalValue = '' :  display.innerHTML = fullSum;
+    operationsArr[count] = event.target.id;
+    count++;
+    currentValue = '';
+}
+
+function swap() {
+    if (hasResult) {
+        hasResult = false;
+        currentValue = totalValue * -1;
+        fullSum = currentValue;
+        count = 0;
+        numbersArr = [];
+        operationsArr = [];
+        numbersArr[count] = currentValue;
+        resultDisplay.innerHTML = '';
+        display.innerHTML = fullSum;
+    } else { 
+            currentValue = '-';
+            fullSum = '-';
+    }
+};
 
 function operate(numbersArr, operationsArr) {
     let prevAnswer = Number(numbersArr[0]);
@@ -101,34 +131,25 @@ function operate(numbersArr, operationsArr) {
  function equals() {
     count = count-1;
     if (numbersArr.length < 1) return;
-    let newResult = operate(numbersArr, operationsArr);
-    if (newResult === Infinity || isNaN(newResult)) { clear(); }
+    if (totalValue === Infinity || isNaN(totalValue)) { clear(); }
     else {
-        resultDisplay.innerHTML = newResult;
-        let tempDisplay = displayValue;
-        display.innerHTML = tempDisplay;
-        displayValue = newResult;
-        currentValue = newResult;
+        resultDisplay.innerHTML = totalValue;
+        display.innerHTML = totalValue;
+        currentValue = '';
+        fullSum = totalValue;
         hasResult = true;
     };
-    return newResult;
+    return totalValue;
  };
 
 const numbers = document.querySelectorAll('.numbers');
 numbers.forEach(button => {button.addEventListener('click', event => resultCheck(event))});
 
 const operators = document.querySelectorAll('.operators');
-operators.forEach(button => {
-    button.addEventListener('click', event => {
-        hasResult = false;
-        displayValue = displayValue + event.target.innerHTML;
-        (displayValue === '=') ? displayValue = '' : display.innerHTML = displayValue;
-        operationsArr[count] = event.target.id;
-        count++;
-        currentValue = '';
-    })
-});
+operators.forEach(button => { button.addEventListener('click', event => addOperator(event))});
 
 document.querySelector('#equals').addEventListener('click', event => equals());
 
 document.querySelector('#clear').addEventListener('click', event => clear());
+
+document.querySelector('#swap').addEventListener('click', event => swap());
