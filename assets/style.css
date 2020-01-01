@@ -8,7 +8,7 @@ html, body {
     background-color: #BFBAA8;
     width: 100%;
     height: 100%;
-    font-family: 'VT323', monospace;
+    font-family: 'Roboto Mono', monospace;
 }
 
 main {
@@ -87,6 +87,10 @@ button {
     border: 10px solid rgba(64, 50, 42, 0.05);
 }
 
+button:focus {
+    outline: none;
+}
+
 #equals {
     background-color: #F25A38;
     color: #F1F2F0;
@@ -98,7 +102,7 @@ button {
 }
 
 #result {
-    height: 26px;
+    height: 30px;
     width: 100%;
 }
 
