@@ -1,7 +1,8 @@
-function add(a, b) { return a + b;};
-function subtract(a, b) { return a - b;};	
-function multiply(a, b) { return a * b;};
-function divide(a, b) {	return a / b;};
+function add(a, b) {return a + b;};
+function subtract(a, b) {return a - b;};	
+function multiply(a, b) {return a * b;};
+function divide(a, b) {return a / b;};
+function round(value, decimals) {return Number(Math.round(value+'e'+decimals)+'e-'+decimals);};
 
 // BUTTONS - Done like this to give each button an id that isn't a number or a symbol so it can be individually styled with css.
 
@@ -143,9 +144,9 @@ function operate(numbersArr, operationsArr) {
     let operator = window[operationsArr[0]];
     for (let i=0; i<count; i++) {
         operator = window[operationsArr[i]];
-        prevAnswer = operator(prevAnswer, Number(numbersArr[i+1]));
+        totalValue = operator(prevAnswer, Number(numbersArr[i+1]));
     }
-    return prevAnswer;
+    return round(totalValue, 2);
  };
 
  function equals() {

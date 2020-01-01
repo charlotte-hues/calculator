@@ -6,6 +6,7 @@ html, body {
     background-color: #BFBAA8;
     width: 100%;
     height: 100%;
+    font-family: 'VT323', monospace;
 }
 
 main {
@@ -30,20 +31,23 @@ main {
     border: 2px solid rgba(64, 50, 42, 0.2);
 }
 
+#logoContainer {
+    margin: 30px 20px 10px;
+}
+
 #screenContainer {
     display: flex;
     flex-direction: column-reverse;
     width: 300px;
     height: 100px;
     align-self: center;
-    margin-top: 50px;
+    margin-top: 10px;
     border: 12px solid #BFBAA8;
     background-color: rgba(128, 166, 133, 0.3);
     border-radius: 10px;
     box-shadow: 0 -3px rgba(64, 50, 42, 0.4);
     color: #80A685;
     text-align: right;
-    font-family: 'Courier New', Courier, monospace;
     font-size: large;
 }
 
@@ -93,6 +97,11 @@ button {
 
 #result {
     height: 26px;
+    width: 100%;
+}
+
+#display {
+    width: 100%;
 }
 
 
