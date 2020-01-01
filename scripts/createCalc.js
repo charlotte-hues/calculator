@@ -82,16 +82,19 @@ function resultCheck(event) {
 
 function addNumber(id, innerHTML) {
     if (id === 'decimal' && currentValue.toString().includes('.')) return;
+    hasResult = false;
     currentValue = currentValue + innerHTML;
     fullSum = fullSum + innerHTML;
     display.innerHTML = fullSum;
     numbersArr[count] = currentValue;
     totalValue = operate(numbersArr, operationsArr);
     (isNaN(totalValue)) ? resultDisplay.innerHTML = '' : resultDisplay.innerHTML = totalValue;
+    console.log('current value: ' + currentValue);
+
 }
 
 function addOperator(event) {
-    if (event.target.id === 'swap') return;
+    if (event.target.id === 'swap' || event.target.id === 'backspace') return;
     hasResult = false;
     currentValue = currentValue + event.target.innerHTML;
     fullSum = fullSum + event.target.innerHTML;
@@ -99,6 +102,7 @@ function addOperator(event) {
     operationsArr[count] = event.target.id;
     count++;
     currentValue = '';
+    console.log('count: ' + count);
 }
 
 function swap() {
@@ -118,10 +122,28 @@ function swap() {
     }
 };
 
+function backspace() {
+    if (hasResult) {clear();}
+    if (fullSum.endsWith('+') || fullSum.endsWith('-') || fullSum.endsWith('x') || fullSum.endsWith('/')) {
+        count = count -1;
+        console.log('minus count')
+        fullSum = fullSum.substring(0, fullSum.length -1);
+    } else {
+        fullSum = fullSum.substring(0, fullSum.length -1);
+        currentValue = currentValue.substring(0, currentValue.length -1);
+        numbersArr[count] = currentValue;
+    }
+    totalValue = operate(numbersArr, operationsArr)
+    display.innerHTML = fullSum;
+    isNaN(totalValue) ? resultDisplay.innerHTML = '' : resultDisplay.innerHTML = totalValue;
+};
+
+
+
 function operate(numbersArr, operationsArr) {
     let prevAnswer = Number(numbersArr[0]);
     let operator = window[operationsArr[0]];
-    for (let i=0; i<numbersArr.length-1; i++) {
+    for (let i=0; i<count; i++) {
         operator = window[operationsArr[i]];
         prevAnswer = operator(prevAnswer, Number(numbersArr[i+1]));
     }
@@ -133,8 +155,9 @@ function operate(numbersArr, operationsArr) {
     if (numbersArr.length < 1) return;
     if (totalValue === Infinity || isNaN(totalValue)) { clear(); }
     else {
+        totalValue = operate(numbersArr, operationsArr)
         resultDisplay.innerHTML = totalValue;
-        display.innerHTML = totalValue;
+        display.innerHTML = fullSum;
         currentValue = '';
         fullSum = totalValue;
         hasResult = true;
@@ -153,3 +176,5 @@ document.querySelector('#equals').addEventListener('click', event => equals());
 document.querySelector('#clear').addEventListener('click', event => clear());
 
 document.querySelector('#swap').addEventListener('click', event => swap());
+
+document.querySelector('#backspace').addEventListener('click', event => backspace());
