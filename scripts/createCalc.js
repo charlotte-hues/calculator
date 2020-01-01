@@ -53,11 +53,10 @@ buttons.forEach(createButtons);
 
 const display = document.querySelector('#display');
 const resultDisplay = document.querySelector('#result');
-const numbersArr = [];
-const operationsArr = [];
+let numbersArr = [];
+let operationsArr = [];
 let currentValue = '';
 let displayValue = '';
-let operator;
 let count = 0;
 
 
@@ -67,22 +66,57 @@ function operate(numbersArr, operationsArr) {
     for (let i=0; i<numbersArr.length-1; i++) {
         operator = window[operationsArr[i]];
         prevAnswer = operator(prevAnswer, Number(numbersArr[i+1]));
-        console.log(prevAnswer);
     }
     return prevAnswer;
  };
 
+ function equals() {
+    count = count-1;
+    if (numbersArr.length < 1) return;
+    let newResult = operate(numbersArr, operationsArr);
+    if (newResult === Infinity || isNaN(newResult)) { clear(); }
+    else {
+        resultDisplay.innerHTML = newResult;
+        let tempDisplay = displayValue;
+        display.innerHTML = tempDisplay;
+        displayValue = newResult;
+        currentValue = newResult; 
+    };
+    return newResult;
+ };
+
+ function clear() {
+    numbersArr = [];
+    operationsArr = [];
+    currentValue = '';
+    displayValue = '';
+    count = 0;
+    display.innerHTML = displayValue;
+    resultDisplay.innerHTML = '';
+};
+
+function addNumber(event) {
+    console.log(currentValue);
+    if (event.target.id === 'decimal' && currentValue.toString().includes('.')) return;
+    // if (event.target.id === 'decimal') 
+    displayValue = displayValue + event.target.innerHTML;
+    display.innerHTML = displayValue;
+    currentValue = currentValue + event.target.innerHTML;
+    numbersArr[count] = currentValue;
+    let result = operate(numbersArr, operationsArr);
+    console.log(result);
+    console.table(numbersArr);
+    console.table(operationsArr);
+    (isNaN(result)) ? resultDisplay.innerHTML = '' : resultDisplay.innerHTML = result;
+}
+
+function swap() {
+
+}
 
 const numbers = document.querySelectorAll('.numbers');
-numbers.forEach(button => {
-    button.addEventListener('click', event => {
-        displayValue = displayValue + event.target.innerHTML;
-        display.innerHTML = displayValue;
-        currentValue = currentValue + event.target.innerHTML;
-        numbersArr[count] = currentValue;
-        resultDisplay.innerHTML = operate(numbersArr, operationsArr);
-    })
-});;
+numbers.forEach(button => {button.addEventListener('click', event => addNumber(event))});
+
 
 const operators = document.querySelectorAll('.operators');
 operators.forEach(button => {
@@ -95,12 +129,6 @@ operators.forEach(button => {
     })
 });
 
-document.querySelector('#equals').addEventListener('click', event => { 
-    count = count-1;
-    if (numbersArr.length < 1) return;
-    let newResult = operate(numbersArr, operationsArr);
-    resultDisplay.innerHTML = newResult;
-    let tempDisplay = displayValue;
-    display.innerHTML = tempDisplay;
-    displayValue = newResult;
-});
+document.querySelector('#equals').addEventListener('click', event => equals());
+
+document.querySelector('#clear').addEventListener('click', event => clear());
