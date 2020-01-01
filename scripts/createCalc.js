@@ -58,7 +58,35 @@ let operationsArr = [];
 let currentValue = '';
 let displayValue = '';
 let count = 0;
+let hasResult = false;
 
+function clear() {
+    numbersArr = [];
+    operationsArr = [];
+    currentValue = '';
+    displayValue = '';
+    count = 0;
+    display.innerHTML = displayValue;
+    resultDisplay.innerHTML = '';
+};
+
+function resultCheck(event) {
+    if (!hasResult) {addNumber(event.target.id, event.target.innerHTML)}
+    else {
+        clear()
+        addNumber(event.target.id, event.target.innerHTML) 
+    }    
+};
+
+function addNumber(id, innerHTML) {
+    if (id === 'decimal' && currentValue.toString().includes('.')) return;
+    displayValue = displayValue + innerHTML;
+    display.innerHTML = displayValue;
+    currentValue = currentValue + innerHTML;
+    numbersArr[count] = currentValue;
+    let result = operate(numbersArr, operationsArr);
+    (isNaN(result)) ? resultDisplay.innerHTML = '' : resultDisplay.innerHTML = result;
+}
 
 function operate(numbersArr, operationsArr) {
     let prevAnswer = Number(numbersArr[0]);
@@ -80,47 +108,19 @@ function operate(numbersArr, operationsArr) {
         let tempDisplay = displayValue;
         display.innerHTML = tempDisplay;
         displayValue = newResult;
-        currentValue = newResult; 
+        currentValue = newResult;
+        hasResult = true;
     };
     return newResult;
  };
 
- function clear() {
-    numbersArr = [];
-    operationsArr = [];
-    currentValue = '';
-    displayValue = '';
-    count = 0;
-    display.innerHTML = displayValue;
-    resultDisplay.innerHTML = '';
-};
-
-function addNumber(event) {
-    console.log(currentValue);
-    if (event.target.id === 'decimal' && currentValue.toString().includes('.')) return;
-    // if (event.target.id === 'decimal') 
-    displayValue = displayValue + event.target.innerHTML;
-    display.innerHTML = displayValue;
-    currentValue = currentValue + event.target.innerHTML;
-    numbersArr[count] = currentValue;
-    let result = operate(numbersArr, operationsArr);
-    console.log(result);
-    console.table(numbersArr);
-    console.table(operationsArr);
-    (isNaN(result)) ? resultDisplay.innerHTML = '' : resultDisplay.innerHTML = result;
-}
-
-function swap() {
-
-}
-
 const numbers = document.querySelectorAll('.numbers');
-numbers.forEach(button => {button.addEventListener('click', event => addNumber(event))});
-
+numbers.forEach(button => {button.addEventListener('click', event => resultCheck(event))});
 
 const operators = document.querySelectorAll('.operators');
 operators.forEach(button => {
     button.addEventListener('click', event => {
+        hasResult = false;
         displayValue = displayValue + event.target.innerHTML;
         (displayValue === '=') ? displayValue = '' : display.innerHTML = displayValue;
         operationsArr[count] = event.target.id;
