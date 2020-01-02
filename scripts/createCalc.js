@@ -63,7 +63,6 @@ let totalValue = '';
 let count = 0;
 let hasResult = false;
 
-
 function clearArrays() {
     count = 0;
     numbersArr = [];
@@ -75,7 +74,6 @@ function clear() {
     currentValue = '';
     totalValue = '';
     fullSum = '';
-    
     display.innerHTML = totalValue;
     resultDisplay.innerHTML = '';
 };
@@ -101,13 +99,9 @@ function addNumber(id, innerHTML) {
 };
 
 function addOperator(event) {
-    console.log(event.id);
-
     const fn = window[event.id];
-    
-    if (event.id === 'swap' || event.id === 'backspace') {return fn();}
+    if (event.id === 'swap' || event.id === 'backspace') return fn();
     else {
-        
         hasResult = false;
         currentValue = currentValue + event.innerHTML;
         fullSum = fullSum + event.innerHTML;
@@ -117,8 +111,7 @@ function addOperator(event) {
         currentValue = '';
         console.log('count: ' + count);
         if (typeof fn === "function") fn();
-    }
-
+    } return;
 };
 
 function swap() {
@@ -126,25 +119,17 @@ function swap() {
         hasResult = false;
         currentValue = totalValue * -1;
         fullSum = currentValue;
-        count = 0;
-        numbersArr = [];
-        operationsArr = [];
+        clearArrays();
         numbersArr[count] = currentValue;
         resultDisplay.innerHTML = '';
         display.innerHTML = fullSum;
-    } else { 
-        console.log('swap has no effect');
-        return;
-            currentValue = '-';
-            fullSum = '-';
-    }
+    }return;
 };
 
 function backspace() {
     if (hasResult) {clear();}
     if (fullSum.endsWith('+') || fullSum.endsWith('-') || fullSum.endsWith('*') || fullSum.endsWith('/')) {
         count = count -1;
-        console.log('minus count')
         fullSum = fullSum.substring(0, fullSum.length -1);
     } else {
         fullSum = fullSum.substring(0, fullSum.length -1);
@@ -160,11 +145,9 @@ function operate(numbersArr, operationsArr) {
     let prevAnswer = Number(numbersArr[0]);
     let operator = window[operationsArr[0]];
     for (let i=0; i<count; i++) {
-        
         operator = window[operationsArr[i]];
         totalValue = operator(prevAnswer, Number(numbersArr[i+1]));
         prevAnswer = totalValue;
-        console.log(i + ' - ' + totalValue + ' --- ' + prevAnswer + '  ' + operationsArr[i] + '  ' + numbersArr[i+1]);
     }
     return round(totalValue, 2);
  };
@@ -189,21 +172,9 @@ numbers.forEach(button => {button.addEventListener('click', event => resultCheck
 const operators = document.querySelectorAll('.operators');
 operators.forEach(button => { button.addEventListener('click', event => addOperator(event.target))});
 
-// document.querySelector('#equals').addEventListener('click', event => equals());
-
-// document.querySelector('#clear').addEventListener('click', event => clear());
-
-// document.querySelector('#swap').addEventListener('click', event => swap());
-
-// document.querySelector('#backspace').addEventListener('click', event => backspace());
-
 window.addEventListener('keydown', function (e) {
     const button = document.querySelector(`button[key="${e.key}"]`);
     if(!button) return;
     if(button.classList[0] === 'numbers') resultCheck(button); 
-    else if(button.classList[0] === 'operators') { 
-        addOperator(button);
-        // const fn = window[button.id];
-        // if (typeof fn === "function") fn();   
-    }      
+    else if(button.classList[0] === 'operators') addOperator(button);     
 });
